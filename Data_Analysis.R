@@ -35,7 +35,7 @@ load("dataMix.Rda")
 # Required packages:
 packages= c("tidyverse", "ggpubr", "ez", "lme4", "readr","stringr","performance","lattice",
             "lsr","Matrix","MASS","ggstatsplot","effects","ggeffects","rstatix","car",
-            "gmodels","DescTools","qqplotr","rcompanion","grDevices") 
+            "gmodels","DescTools","qqplotr","rcompanion","grDevices","ggdist") 
 
 for(i in 1:length(packages)){
   
@@ -114,13 +114,11 @@ plot(dataMix$Ucla_score_c, dataMix$OCI_score_c,
      xlab = "Loneliness Score",
      ylab = "Online Cognition Score",
      col = (alpha(ifelse(dataMix$Nationality == "0",paletteM[2],paletteM[5]), 0.56)),
-     pch = 16,
-     family = "A")
+     pch = 16)
 legend("topleft", 
        pch = 16,
        c("Turkey", "United Kingdom"), 
-       col = c(paletteM[2],paletteM[5]),
-       text=element_text(family="Times New Roman", size=12))
+       col = c(paletteM[2],paletteM[5]))
 abline(lm(data_uk$OCI_score_c ~ data_uk$Ucla_score_c), col = paletteM[5])
 abline(lm(data_tr$OCI_score_c ~ data_tr$Ucla_score_c), col = paletteM[2])
 
@@ -132,7 +130,7 @@ plot(dataMix$Ucla_score_c, dataMix$OCI_score_c,
      ylab = "Online Cognition Score",
      col = (alpha(ifelse(dataMix$Nationality == "0","#888888","#222222"),0.75)),
      pch = 16)
-     #family = "A")
+#family = "A")
 legend("topleft", 
        pch = 16,
        c("Turkey", "United Kingdom"), 
@@ -175,7 +173,7 @@ ggplot(dataMix)+geom_jitter(aes(x= Ucla_score_c, y=OCI_score_c, color= Nationali
 
 #dataMix %>%
 #  mutate(Nationality = fct_reorder(Nationality, desc(Ucla_score))) %>% 
-  ggplot(dataMix, aes(x= Nationality, Ucla_score, fill=Nationality)) +
+ggplot(dataMix, aes(x= Nationality, Ucla_score, fill=Nationality)) +
   ggdist::stat_halfeye(adjust = .3, width = .4, .width = 0, justification = -.3) + 
   geom_boxplot(width = .1, outlier.shape = NA) +
   ggdist::stat_dots(side = "left", dotsize = .26, justification = 1.1, binwidth = 1,col=paletteM[5])+
@@ -188,25 +186,25 @@ ggplot(dataMix)+geom_jitter(aes(x= Ucla_score_c, y=OCI_score_c, color= Nationali
         text=element_text(family="Times New Roman", size=12),
         legend.position="top")+
   ylab("Loneliness Scores")
-  
+
 ## Black-White 
-  ggplot(dataMix, aes(x= Nationality, Ucla_score, fill=Nationality)) +
-    ggdist::stat_halfeye(adjust = .3, width = .4, .width = 0, justification = -.3) + 
-    geom_boxplot(width = .1, outlier.shape = NA) +
-    ggdist::stat_dots(side = "left", dotsize = .26, justification = 1.1, binwidth = 1)+
-    theme_classic()+
-    scale_fill_manual(labels=c('Turkey', 'United Kingdom'),values=c("#888888","#555555"))+
-    coord_flip()+
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(colour = "black", size=1),
-          text=element_text(family="Times New Roman", size=12),
-          legend.position="top")+
-    ylab("Loneliness Scores")
+ggplot(dataMix, aes(x= Nationality, Ucla_score, fill=Nationality)) +
+  ggdist::stat_halfeye(adjust = .3, width = .4, .width = 0, justification = -.3) + 
+  geom_boxplot(width = .1, outlier.shape = NA) +
+  ggdist::stat_dots(side = "left", dotsize = .26, justification = 1.1, binwidth = 1)+
+  theme_classic()+
+  scale_fill_manual(labels=c('Turkey', 'United Kingdom'),values=c("#888888","#555555"))+
+  coord_flip()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", size=1),
+        text=element_text(family="Times New Roman", size=12),
+        legend.position="top")+
+  ylab("Loneliness Scores")
 
 #dataMix %>%
 #  mutate(Nationality = fct_reorder(Nationality, desc(OCI_score))) %>% 
-  ggplot(dataMix,aes(x= Nationality, OCI_score, fill=Nationality)) +
+ggplot(dataMix,aes(x= Nationality, OCI_score, fill=Nationality)) +
   ggdist::stat_halfeye(adjust = .2, width = .4, .width = 0, justification = -.3) + 
   geom_boxplot(width = .1, outlier.shape = NA) +
   ggdist::stat_dots(side = "left", dotsize = 0.4, justification = 1.1, binwidth = 3,col=paletteM[5])+
@@ -221,77 +219,77 @@ ggplot(dataMix)+geom_jitter(aes(x= Ucla_score_c, y=OCI_score_c, color= Nationali
   ylab("Online Cognition Scores")
 
 ## Black-White
-  ggplot(dataMix,aes(x= Nationality, OCI_score, fill=Nationality)) +
-    ggdist::stat_halfeye(adjust = .2, width = .4, .width = 0, justification = -.3) + 
-    geom_boxplot(width = .1, outlier.shape = NA) +
-    ggdist::stat_dots(side = "left", dotsize = 0.4, justification = 1.1, binwidth = 3)+
-    theme_classic() +
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(colour = "black", size=1),
-          text=element_text(family="Times New Roman", size=12),
-          legend.position="top")+
-    scale_fill_manual(labels=c('Turkey', 'United Kingdom'),values=c("#888888","#555555"))+
-    coord_flip()+
-    ylab("Online Cognition Scores")
+ggplot(dataMix,aes(x= Nationality, OCI_score, fill=Nationality)) +
+  ggdist::stat_halfeye(adjust = .2, width = .4, .width = 0, justification = -.3) + 
+  geom_boxplot(width = .1, outlier.shape = NA) +
+  ggdist::stat_dots(side = "left", dotsize = 0.4, justification = 1.1, binwidth = 3)+
+  theme_classic() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", size=1),
+        text=element_text(family="Times New Roman", size=12),
+        legend.position="top")+
+  scale_fill_manual(labels=c('Turkey', 'United Kingdom'),values=c("#888888","#555555"))+
+  coord_flip()+
+  ylab("Online Cognition Scores")
 
 #### Demographic ####
 
- mean(as.numeric(dataMix$FreqUse))
- mean(dataMix$Age)
- max(dataMix$Age)
- min(dataMix$Age)
- sd(dataMix$Age)
- mean(data_uk$Age)
- max(data_uk$Age)
- min(data_uk$Age)
- sd(data_uk$Age)
- mean(data_tr$Age)
- sd(data_tr$Age)
- max(data_tr$Age)
- min(data_tr$Age)
+mean(as.numeric(dataMix$FreqUse))
+mean(dataMix$Age)
+max(dataMix$Age)
+min(dataMix$Age)
+sd(dataMix$Age)
+mean(data_uk$Age)
+max(data_uk$Age)
+min(data_uk$Age)
+sd(data_uk$Age)
+mean(data_tr$Age)
+sd(data_tr$Age)
+max(data_tr$Age)
+min(data_tr$Age)
 
- dataMix %>% count(Gender)
- data_uk %>% count(Gender)
- data_tr %>% count(Gender)
+dataMix %>% count(Gender)
+data_uk %>% count(Gender)
+data_tr %>% count(Gender)
 
- dataMix %>% count(Ethnicity)
- data_uk %>% count(Ethnicity)
- data_tr %>% count(Ethnicity)
+dataMix %>% count(Ethnicity)
+data_uk %>% count(Ethnicity)
+data_tr %>% count(Ethnicity)
 
- dataMix %>% count(Education)
- data_uk %>% count(Education)
- data_tr %>% count(Education)
+dataMix %>% count(Education)
+data_uk %>% count(Education)
+data_tr %>% count(Education)
 
- dataMix %>% count(Marital)
- data_uk %>% count(Marital)
- data_tr %>% count(Marital)
+dataMix %>% count(Marital)
+data_uk %>% count(Marital)
+data_tr %>% count(Marital)
 
- dataMix %>% count(Employment)
- data_uk %>% count(Employment)
- data_tr %>% count(Employment)
- 
- dataMix %>% count(FreqUse)
- data_tr %>% count(FreqUse)
- data_uk %>% count(FreqUse)
- 
- dataM <- subset(dataMix, dataMix$Gender == 1)
- dataW <- subset(dataMix, dataMix$Gender == 2)
- 
- dataM %>% count(Marital)
- dataW %>% count(Marital)
- 
- sum(dataMix$Ucla_score >= 20 & dataMix$Ucla_score < 35)
- sum(dataMix$Ucla_score >= 35 & dataMix$Ucla_score < 50)
- sum(dataMix$Ucla_score >= 50 & dataMix$Ucla_score < 65)
- sum(dataMix$Ucla_score >= 65 & dataMix$Ucla_score < 80)
- 
- median(dataMix$OCI_score)
- round(sum(dataMix$OCI_score < 137)/679,2)
- 
- sum(dataMix$OCI_score < 137)-679
- mean(dataMix$OCI_score)
- sd(dataMix$OCI_score)
+dataMix %>% count(Employment)
+data_uk %>% count(Employment)
+data_tr %>% count(Employment)
+
+dataMix %>% count(FreqUse)
+data_tr %>% count(FreqUse)
+data_uk %>% count(FreqUse)
+
+dataM <- subset(dataMix, dataMix$Gender == 1)
+dataW <- subset(dataMix, dataMix$Gender == 2)
+
+dataM %>% count(Marital)
+dataW %>% count(Marital)
+
+sum(dataMix$Ucla_score >= 20 & dataMix$Ucla_score < 35)
+sum(dataMix$Ucla_score >= 35 & dataMix$Ucla_score < 50)
+sum(dataMix$Ucla_score >= 50 & dataMix$Ucla_score < 65)
+sum(dataMix$Ucla_score >= 65 & dataMix$Ucla_score < 80)
+
+median(dataMix$OCI_score)
+round(sum(dataMix$OCI_score < 137)/679,2)
+
+sum(dataMix$OCI_score < 137)-679
+mean(dataMix$OCI_score)
+sd(dataMix$OCI_score)
 
 #### Hypothesis #####
 
@@ -301,7 +299,7 @@ ggplot(dataMix)+geom_jitter(aes(x= Ucla_score_c, y=OCI_score_c, color= Nationali
 ### H4: There is a difference in the relationship between loneliness and addiction between the two countries.
 
 # Multiple linear regression
- 
+
 H4 <- lm(OCI_score_c ~ Ucla_score_c*Nationality, data=dataMix)
 summary(H4)
 
@@ -388,11 +386,13 @@ plot(H4, which = 5)
 
 check_model(H4,
             check = "vif")
+check_collinearity(H4)
 
 # Normality of Residuals
 
 check_model(H4,
             check = "normality")
+check_outliers(H4, method = "cook")
 
 #### Mann-Whitney U tests ####
 
@@ -400,7 +400,7 @@ check_model(H4,
 # cummulative logit link model
 # Produce descriptive statistics by group
 
-c<-dataMix %>% select(Nationality, OCI_score) %>% group_by(Nationality) %>% 
+U_OCI<-dataMix %>% select(Nationality, OCI_score) %>% group_by(Nationality) %>% 
   summarise(n = n(), 
             mean = mean(OCI_score, na.rm = TRUE), 
             sd = sd(OCI_score, na.rm = TRUE),
@@ -414,8 +414,8 @@ c<-dataMix %>% select(Nationality, OCI_score) %>% group_by(Nationality) %>%
             LCLmed = MedianCI(OCI_score, na.rm=TRUE)[2],
             UCLmed = MedianCI(OCI_score, na.rm=TRUE)[3])
 
-c$Nationality <- as.numeric(c$Nationality)
-c <- round(c,digits=2)
+U_OCI$Nationality <- as.numeric(U_OCI$Nationality)
+U_OCI <- round(U_OCI,digits=2)
 
 # Produce Boxplots and visually check for outliers
 
@@ -426,7 +426,7 @@ ggplot(dataMix, aes(x = Nationality, y = OCI_score, fill = Nationality)) +
   ggtitle("Boxplot of Online cognition scores") + 
   theme_bw() + theme(legend.position="none") +
   scale_x_discrete(labels=c("0" = "TR", "1" = "UK"))
-                           
+
 # Test each group for normality
 
 dataMix %>%
@@ -456,7 +456,7 @@ H2$estimate
 
 # Produce descriptive statistics by group
 
-z <- dataMix %>% select(Nationality, Ucla_score) %>% group_by(Nationality) %>% 
+U_UCLA <- dataMix %>% select(Nationality, Ucla_score) %>% group_by(Nationality) %>% 
   summarise(n = n(), 
             mean = mean(Ucla_score, na.rm = TRUE), 
             sd = sd(Ucla_score, na.rm = TRUE),
@@ -469,8 +469,8 @@ z <- dataMix %>% select(Nationality, Ucla_score) %>% group_by(Nationality) %>%
             IQR = IQR(Ucla_score, na.rm = TRUE),
             LCLmed = MedianCI(Ucla_score, na.rm=TRUE)[2],
             UCLmed = MedianCI(Ucla_score, na.rm=TRUE)[3])
-z$Nationality <- as.numeric(z$Nationality)
-z <- round(z, digits = 2)
+U_UCLA$Nationality <- as.numeric(U_UCLA$Nationality)
+U_UCLA <- round(U_UCLA, digits = 2)
 
 # Produce Boxplots and visually check for outliers
 
@@ -518,20 +518,33 @@ subset2 <- subset(dataMix, Gender == 2)
 dataGender <- rbind(subset1,subset2)
 dataGender$Gender <- as.factor(dataGender$Gender)
 contrasts(dataGender$Gender)
-#summary(H_alternative1<- lm( OCI_score_c ~ Gender, data=dataGender))
-#summary(H_alternative2<- lm( Ucla_score_c ~ Gender, data=dataGender))
 
+# Violine plots
+
+ggplot(dataGender, aes(Gender,OCI_score))+
+  geom_violin()+ geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = .2)+
+  theme_classic()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", size=1),
+        text=element_text(family="Times New Roman", size=12))+
+  scale_x_discrete(labels = c("Male","Female"))+
+  ylab("Online cognition scores")
+
+ggplot(dataGender, aes(Gender,Ucla_score_c))+
+  geom_violin()+ geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = .2)+
+  theme_classic()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", size=1),
+        text=element_text(family="Times New Roman", size=12))+
+  scale_x_discrete(labels = c("Male","Female"))+
+  ylab("Loneliness Scores")
+
+## Mann-Whitney U Tests
 
 genderOCI<-wilcox.test(OCI_score_c ~ Gender, data=dataGender, na.rm=TRUE, paired=F, exact=FALSE, conf.int=TRUE)
 print(genderOCI)
-
-ggplot(dataGender, aes(x = Gender, y = OCI_score, fill = Gender)) +
-  stat_boxplot(geom ="errorbar", width = 0.5) +
-  geom_boxplot(fill = "light blue") + 
-  stat_summary(fun.y=mean, geom="point", shape=10, size=3.5, color="black") + 
-  ggtitle("Boxplot of Online cognition scores") + 
-  theme_bw() + theme(legend.position="none") +
-  scale_x_discrete(labels=c("0" = "Men", "1" = "Women"))
 
 genderUCLA<-wilcox.test(Ucla_score ~ Gender, data=dataGender, na.rm=TRUE, paired=F, exact=FALSE, conf.int=TRUE)
 print(genderUCLA)
@@ -550,6 +563,15 @@ genderUCLA_D <-dataGender %>% select(Gender, Ucla_score) %>% group_by(Gender) %>
             LCLmed = MedianCI(Ucla_score, na.rm=TRUE)[2],
             UCLmed = MedianCI(Ucla_score, na.rm=TRUE)[3])
 
+# Box plots
+
+ggplot(dataGender, aes(x = Gender, y = OCI_score, fill = Gender)) +
+  stat_boxplot(geom ="errorbar", width = 0.5) +
+  geom_boxplot(fill = "light blue") + 
+  stat_summary(fun.y=mean, geom="point", shape=10, size=3.5, color="black") + 
+  ggtitle("Boxplot of Online cognition scores") + 
+  theme_bw() + theme(legend.position="none") +
+  scale_x_discrete(labels=c("0" = "Men", "1" = "Women"))
 
 ggplot(dataGender, aes(x = Gender, y = Ucla_score_c, fill = Gender)) +
   stat_boxplot(geom ="errorbar", width = 0.5) +
@@ -593,20 +615,17 @@ UCLA_age <- ggscatter(dataMix, x = "Age", y = "Ucla_score",
                       digits = 3); UCLA_age
 
 OCI_age <- ggscatter(dataMix, x = "Age", y = "OCI_score", 
-                    add = "reg.line", conf.int = TRUE, 
-                    cor.coef = TRUE, cor.method = "pearson", 
-                    cor.coeff.args = list(digits = 3),
-                    xlab = "Age", ylab = "Online Cognition",
-                    color = paletteM[5],alpha = 0.6,
-                    cor.coef.coord = c(50,200),
-                    digits = 3);OCI_age
+                     add = "reg.line", conf.int = TRUE, 
+                     cor.coef = TRUE, cor.method = "pearson", 
+                     cor.coeff.args = list(digits = 3),
+                     xlab = "Age", ylab = "Online Cognition",
+                     color = paletteM[5],alpha = 0.6,
+                     cor.coef.coord = c(50,200),
+                     digits = 3);OCI_age
 
 AGE_plots <- ggarrange(UCLA_age, OCI_age, 
-                            labels = c("A", "B"),
-                            ncol = 2, nrow = 1, legend= "none");AGE_plots
-
-plot(data_tr$Age,data_tr$Ucla_score)
-points(data_uk$Age,data_uk$Ucla_score, col="red")
+                       labels = c("A", "B"),
+                       ncol = 2, nrow = 1, legend= "none");AGE_plots
 
 plot(dataMix$Age_c,dataMix$OCI_score_c,
      main = "Distribution of Age and Internet addiction",
@@ -626,19 +645,19 @@ abline(lm(dataMix$OCI_score_c ~ dataMix$Age_c), col = paletteM[1],lwd=4)
 
 #### Frequency of Use ####
 
-z <- dataMix %>% group_by(FreqUse) %>% mutate(meanOciT = mean(OCI_score),
-                                              sdOciT= sd(OCI_score),
-                                              meanOcisoc = mean(OCI_socsup),
-                                              sdOcisoc= sd(OCI_socsup),
-                                              meanOcidep = mean(OCI_dep),
-                                              sdOcidep= sd(OCI_dep),
-                                              meanOciatt = mean(OCI_att),
-                                              sdOciatt= sd(OCI_att),
-                                              meanOciimp = mean(OCI_imp),
-                                              sdOciimp= sd(OCI_imp))
+Frequse_table <- dataMix %>% group_by(FreqUse) %>% summarise(meanOciT = mean(OCI_score),
+                                                             sdOciT= sd(OCI_score),
+                                                             meanOcisoc = mean(OCI_socsup),
+                                                             sdOcisoc= sd(OCI_socsup),
+                                                             meanOcidep = mean(OCI_dep),
+                                                             sdOcidep= sd(OCI_dep),
+                                                             meanOciatt = mean(OCI_att),
+                                                             sdOciatt= sd(OCI_att),
+                                                             meanOciimp = mean(OCI_imp),
+                                                             sdOciimp= sd(OCI_imp))
 
-f <- dataMix %>% group_by(FreqUse) %>% summarise(meanlon = mean(Ucla_score),
-                                                 sdlon= sd(Ucla_score))
+Frequse_table_lon <- dataMix %>% group_by(FreqUse) %>% summarise(meanlon = mean(Ucla_score),
+                                                                 sdlon= sd(Ucla_score))
 
 # One Way ANOVAs
 
@@ -679,7 +698,7 @@ ggplot(dataMix, aes(x=OCI_score_c, y=Ucla_score_c,color=FreqUse,fill=FreqUse))+
 
 #### Correlations ####
 
-dataS <- dataMix[,c("OCI_socsup","OCI_dep","OCI_imp","OCI_att","Ucla_score")]
+dataS <- dataMix[,c("OCI_socsup","OCI_dep","OCI_imp","OCI_att","Ucla_score","OCI_score")]
 ggcorrmat(data= dataS)
 mean(dataMix$OCI_socsup)
 mean(dataMix$OCI_att)
@@ -695,20 +714,34 @@ sd(dataMix$OCI_dep)
 sd(dataMix$OCI_score)
 sd(dataMix$Ucla_score)
 
-cor.test(dataMix$OCI_dep,dataMix$OCI_score)
+cor.test(dataMix$OCI_score,dataMix$OCI_att)
+cor.test(dataMix$OCI_score,dataMix$OCI_dep)
+cor.test(dataMix$OCI_score,dataMix$OCI_socsup)
+cor.test(dataMix$OCI_score,dataMix$OCI_imp)
+cor.test(dataMix$OCI_score,dataMix$Ucla_score)
+cor.test(dataMix$Ucla_score,dataMix$OCI_att)
+cor.test(dataMix$Ucla_score,dataMix$OCI_dep)
+cor.test(dataMix$Ucla_score,dataMix$OCI_socsup)
+cor.test(dataMix$Ucla_score,dataMix$OCI_imp)
+cor.test(dataMix$OCI_dep,dataMix$OCI_imp)
+cor.test(dataMix$OCI_dep,dataMix$OCI_att)
+cor.test(dataMix$OCI_dep,dataMix$OCI_socsup)
+cor.test(dataMix$OCI_imp,dataMix$OCI_att)
+cor.test(dataMix$OCI_imp,dataMix$OCI_socsup)
+cor.test(dataMix$OCI_att,dataMix$OCI_socsup)
 
 #### Purpose of Use ####
 
-y <- dataMix %>% group_by(Purpose_G) %>% mutate(meanOciT = mean(OCI_score),
-                                                sdOciT= sd(OCI_score),
-                                                meanOcisoc = mean(OCI_socsup),
-                                                sdOcisoc= sd(OCI_socsup),
-                                                meanOcidep = mean(OCI_dep),
-                                                sdOcidep= sd(OCI_dep),
-                                                meanOciatt = mean(OCI_att),
-                                                sdOciatt= sd(OCI_att),
-                                                meanOciimp = mean(OCI_imp),
-                                                sdOciimp= sd(OCI_imp));y
+purposeUse <- dataMix %>% group_by(Purpose_G) %>% mutate(meanOciT = mean(OCI_score),
+                                                         sdOciT= sd(OCI_score),
+                                                         meanOcisoc = mean(OCI_socsup),
+                                                         sdOcisoc= sd(OCI_socsup),
+                                                         meanOcidep = mean(OCI_dep),
+                                                         sdOcidep= sd(OCI_dep),
+                                                         meanOciatt = mean(OCI_att),
+                                                         sdOciatt= sd(OCI_att),
+                                                         meanOciimp = mean(OCI_imp),
+                                                         sdOciimp= sd(OCI_imp));y
 
 
 

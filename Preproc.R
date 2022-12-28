@@ -4,10 +4,19 @@
 # This script uses raw data from Qualtrics
 
 # Required libraries and functions
+packages= c("tidyverse", "readxl","stringr") 
 
-library(readxl)
-library(dplyr)
-library(stringr)
+for(i in 1:length(packages)){
+  
+  if(packages[i] %in% rownames(installed.packages())==FALSE){
+    install.packages(packages[i])
+    library(packages[i], character.only=TRUE)
+  }else{
+    library(packages[i], character.only=TRUE)
+  }
+}
+
+
 source("functions.R")
 
 #### TR ####
