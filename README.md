@@ -1,4 +1,4 @@
-# Zeynep Gunes Ozkan, 2022. Dissertation Data analysis 
+# Zeynep Gunes Ozkan, 2023. Dissertation Data analysis 
 
 * This file contains the most important information in order to repeat the analyses.
 
